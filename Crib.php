@@ -5,46 +5,33 @@
  */
 class Crib
 {
-    private $cows;
-    private $chickens;
-    private $product;
-
-    public function __construct($cows, $chickens)
-    {
-        $this->cows = $cows;
-        $this->chickens = $chickens;
-    }
+    private $animals;
+    private $regNumberAnimal;
+    private $products;
 
     /**
-     * Метод сбора молока со всех коров в хлеву
-     * @return int количество молока
+     * Метод добавления животных
+     * @param $animalClass класс добавляемых животных
+     * @param $count количество доавляемых животных
      */
-    public function collectMilk ()
+    public function enterAnimals($animalClass, $count)
     {
-        return $this->collect($this->cows);
-    }
-
-    /**
-     * Метод сбора яиц со всех кур в хлеву
-     * @return int количество яиц
-     */
-    public function collectEggs()
-    {
-        return $this->collect($this->chickens);
-    }
-
-    /**
-     * Метод сбора продуктов со стада животных
-     * @param $herd стадо животных
-     * @return int количество собранного продукта
-     */
-    private function collect($herd)
-    {
-        $this->product = 0;
-        foreach ($herd as $animal) {
-            $this->product += $animal->getResource();
+        for ($i = 1; $i <= $count; $i++) {
+            $this->animals[++$this->regNumberAnimal] = new $animalClass;
+            $this->animals[$this->regNumberAnimal]->setRegNumber($this->regNumberAnimal);
         }
-        return $this->product;
+    }
+
+    /**
+     * Метод сбора продуктов
+     * @return array ассациативный массив продуктов по классам животных
+     */
+    public function collectProducts()
+    {
+        foreach ($this->animals as $animal) {
+            $this->products[get_class($animal)] += $animal->getResource();
+        }
+        return $this->products;
     }
 
 }
