@@ -18,7 +18,7 @@ class Crib
     public function enterAnimals($animalClass, $count)
     {
         if(!class_exists($animalClass)) throw new Exception('Ошибка: Класса "'.$animalClass.'" не существует!');
-        if(!is_int($count)) throw new Exception('Ошибка: Количество животных должно быть целым числом!');
+        if(!is_int($count) || $count<=0) throw new Exception('Ошибка: Количество животных должно быть натуральным числом!');
         for ($i = 1; $i <= $count; $i++) {
             $this->animals[++$this->regNumberAnimal] = new $animalClass($this->regNumberAnimal);
             //$this->animals[$this->regNumberAnimal]->setRegNumber($this->regNumberAnimal);
