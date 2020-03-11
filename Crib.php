@@ -13,12 +13,15 @@ class Crib
      * Метод добавления животных
      * @param $animalClass класс добавляемых животных
      * @param $count количество доавляемых животных
+     * @throws Exception
      */
     public function enterAnimals($animalClass, $count)
     {
+        if(!class_exists($animalClass)) throw new Exception('Ошибка: Класса "'.$animalClass.'" не существует!');
+        if(!is_int($count)) throw new Exception('Ошибка: Количество животных должно быть целым числом!');
         for ($i = 1; $i <= $count; $i++) {
-            $this->animals[++$this->regNumberAnimal] = new $animalClass;
-            $this->animals[$this->regNumberAnimal]->setRegNumber($this->regNumberAnimal);
+            $this->animals[++$this->regNumberAnimal] = new $animalClass($this->regNumberAnimal);
+            //$this->animals[$this->regNumberAnimal]->setRegNumber($this->regNumberAnimal);
         }
     }
 
@@ -34,4 +37,17 @@ class Crib
         return $this->products;
     }
 
+    /**
+     * Метод вывода собранных продуктов
+     * @param $typeAnimals массив видов животных
+     * @throws Exception
+     */
+    public function showProducts ($typeAnimals)
+    {
+        if(!is_array($typeAnimals)) throw new Exception('Ошибка: Виды животных должны быть переданы в виде массива!');
+        print('Собранно продуктов:'.PHP_EOL);
+        foreach ($typeAnimals as $animalClass=>$animal){
+            print($animal['nameProduct'].' '.$this->products[$animalClass].PHP_EOL);
+        }
+    }
 }
